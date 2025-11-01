@@ -1,6 +1,7 @@
 class Wallpaper {
   final int? id;
   final String title;
+  final String description;
   final String filePath;
   final String category;
   final bool isFavorite;
@@ -8,6 +9,7 @@ class Wallpaper {
   Wallpaper({
     this.id,
     required this.title,
+    required this.description,
     required this.filePath,
     required this.category,
     this.isFavorite = false,
@@ -17,6 +19,7 @@ class Wallpaper {
     return {
       'id': id,
       'title': title,
+      'description': description,
       'filePath': filePath,
       'category': category,
       'isFavorite': isFavorite ? 1 : 0,
@@ -27,6 +30,7 @@ class Wallpaper {
     return Wallpaper(
       id: map['id'],
       title: map['title'],
+      description: map['description'],
       filePath: map['filePath'],
       category: map['category'],
       isFavorite: map['isFavorite'] == 1,
