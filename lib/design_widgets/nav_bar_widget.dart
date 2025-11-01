@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NavBar extends StatelessWidget {
@@ -40,6 +39,8 @@ class HeaderBtn extends StatelessWidget {
     return Row(
       children: [
         IconButton(
+          focusColor: Color.fromRGBO(245, 245, 245, 1),
+          hoverColor: Colors.transparent,
           onPressed: () => Navigator.pushReplacementNamed(context, routeName),
           icon: Icon(icon),
         ),

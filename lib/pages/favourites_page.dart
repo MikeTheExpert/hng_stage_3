@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hng_stage_3/design_widgets/fav_card_widget.dart';
+import 'package:hng_stage_3/design_widgets/list_view.dart';
 import 'package:hng_stage_3/models/wallpaper_model.dart';
+import 'package:path/path.dart';
 
 import '../models/helper_class.dart';
 
@@ -15,6 +18,7 @@ class MyFavourite extends StatefulWidget {
 class _MyFavouriteState extends State<MyFavourite> {
   final db = DatabaseHelper();
   List<Wallpaper> wallpapers = [];
+  bool isGrid = false;
 
   @override
   void initState() {
@@ -28,6 +32,11 @@ class _MyFavouriteState extends State<MyFavourite> {
       wallpapers = data;
     });
   }
+  void toggleDisplayView(){
+    setState(() {
+      isGrid != isGrid;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +44,7 @@ class _MyFavouriteState extends State<MyFavourite> {
       appBar: AppBar(title: const Text("My Favourites")),
       body: wallpapers.isEmpty
           ? const Center(child: Text("No favourites yet ⭐"))
-          : ListView.builder(
-        itemCount: wallpapers.length,
-        itemBuilder: (context, index) {
-          final wallpaperItem = wallpapers[index];
-          return ListTile(
-            leading: Image.file(
-              File(wallpaperItem.filePath),
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
-            ),
-            title: Text(wallpaperItem.title),
-            subtitle: Text(wallpaperItem.category),
-            trailing: const Icon(Icons.star, color: Colors.amber),
-          );
-        },
-      ),
+          : infoCard(wallpapers, context)
     );
   }
 }

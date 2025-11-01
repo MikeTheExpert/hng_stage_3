@@ -36,6 +36,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         description TEXT NOT NULL,
+        moodSet TEXT NOT NULL,
         filePath TEXT NOT NULL,
         category TEXT NOT NULL,
         isFavorite INTEGER NOT NULL

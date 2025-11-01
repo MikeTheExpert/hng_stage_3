@@ -1,11 +1,92 @@
 import 'package:flutter/material.dart';
+import 'package:hng_stage_3/design_widgets/list_view.dart';
+import 'package:hng_stage_3/design_widgets/home_page_card.dart';
+import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
 
-class MyBrowserPage extends StatelessWidget{
+import '../models/helper_class.dart';
+import '../models/wallpaper_model.dart';
+import 'create_images.dart';
+
+class MyBrowserPage extends StatefulWidget {
+  const MyBrowserPage({super.key});
+
+  @override
+  State<MyBrowserPage> createState() => _MyBrowserPageState();
+}
+
+class _MyBrowserPageState extends State<MyBrowserPage> {
+  final db = DatabaseHelper();
+  List<Wallpaper> wallpapers = [];
+  bool isGrid = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWallpapers();
+  }
+
+  Future<void> _loadWallpapers() async {
+    final data = await db.getWallpapers();
+    setState(() {
+      wallpapers = data;
+    });
+  }
+
+  void toggleDisplayView() {
+    setState(() {
+      isGrid != isGrid;
+    });
+  }
+
+  categoryPageRoute(){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: child),
-    )
+      appBar: AppBar(
+        title: NavBar(),
+      ),
+      floatingActionButton: IconButton(
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateWallpaperPage(),
+            ),
+          );
+          if (result == true) {
+            // Refresh your wallpapers list after insertion
+            setState(() {});
+          }
+        },
+        icon: Icon(Icons.add_outlined),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton.outlined(
+                  onPressed: toggleDisplayView,
+                  icon: Icon(
+                    isGrid ? Icons.grid_on_outlined : Icons.list_outlined,
+                  ),
+                ),
+              ],
+            ),
+            wallpapers.isEmpty
+                ? Center(child: Text('Nothing here'))
+                : Expanded(
+              child:
+              isGrid
+                  ? homepageCard(wallpapers, context)
+                  : listView(wallpapers),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-
 }
