@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hng_stage_3/design_widgets/list_view.dart';
 import 'package:hng_stage_3/design_widgets/home_page_card.dart';
 import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
@@ -70,8 +71,14 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
               children: [
                 IconButton.outlined(
                   onPressed: toggleDisplayView,
-                  icon: Icon(
-                    isGrid ? Icons.grid_on_outlined : Icons.list_outlined,
+                  icon: isGrid ? SvgPicture.asset(
+                      'assets/icons/gridView.svg',
+                      width: 15,
+                      height: 15,
+                    ) : SvgPicture.asset(
+                  'assets/icons/listView.svg',
+                  width: 15,
+                    height: 15,
                   ),
                 ),
               ],

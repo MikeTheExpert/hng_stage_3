@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../pages/wallpaper_category_page.dart';
 
 Widget homepageCard (wallpapers, context, ){
   final screenWidth = MediaQuery.of(context).size.width;

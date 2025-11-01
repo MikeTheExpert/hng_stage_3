@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
+  final double size = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -10,11 +12,43 @@ class NavBar extends StatelessWidget {
       children: [
         const Text("My App"),
         Row(
-          children: const [
-            HeaderBtn(icon: Icons.home_outlined, headerText: "Home", routeName: "/home"),
-            HeaderBtn(icon: Icons.grid_on_outlined, headerText: "Browse", routeName: '/browse'),
-            HeaderBtn(icon: Icons.favorite_border_outlined, headerText: 'Favourites', routeName: '/favourite',),
-            HeaderBtn(icon: Icons.settings_outlined, headerText: "Settings", routeName: "/settings"),
+          children: [
+            HeaderBtn(
+              icon: SvgPicture.asset(
+                'assets/icons/home.svg',
+                width: size,
+                height: size,
+              ),
+              headerText: "Home",
+              routeName: "/home",
+            ),
+            HeaderBtn(
+              icon: SvgPicture.asset(
+                'assets/icons/browse.svg',
+                width: size,
+                height: size,
+              ),
+              headerText: "Browse",
+              routeName: '/browse',
+            ),
+            HeaderBtn(
+              icon: SvgPicture.asset(
+                'assets/icons/favourite.svg',
+                width: size,
+                height: size,
+              ),
+              headerText: 'Favourites',
+              routeName: '/favourite',
+            ),
+            HeaderBtn(
+              icon: SvgPicture.asset(
+                'assets/icons/settings.svg',
+                width: size,
+                height: size,
+              ),
+              headerText: "Settings",
+              routeName: "/settings",
+            ),
           ],
         ),
       ],
@@ -23,7 +57,7 @@ class NavBar extends StatelessWidget {
 }
 
 class HeaderBtn extends StatelessWidget {
-  final IconData icon;
+  final SvgPicture icon;
   final String headerText;
   final String routeName;
 
@@ -42,7 +76,7 @@ class HeaderBtn extends StatelessWidget {
           focusColor: Color.fromRGBO(245, 245, 245, 1),
           hoverColor: Colors.transparent,
           onPressed: () => Navigator.pushReplacementNamed(context, routeName),
-          icon: Icon(icon),
+          icon: icon,
         ),
         Text(headerText),
       ],
