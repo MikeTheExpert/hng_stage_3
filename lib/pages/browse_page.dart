@@ -35,7 +35,7 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
 
   void toggleDisplayView() {
     setState(() {
-      isGrid != isGrid;
+      isGrid = !isGrid;
     });
   }
 
@@ -46,22 +46,6 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      floatingActionButton: IconButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CreateWallpaperPage(),
-            ),
-          );
-          if (result == true) {
-            // Refresh your wallpapers list after insertion
-            setState(() {});
-          }
-        },
-        icon: Icon(Icons.add_outlined),
-      ),
       body: SafeArea(
         child: Column(
           children: [

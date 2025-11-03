@@ -1,5 +1,4 @@
 import 'package:hng_stage_3/models/settings_model.dart';
-import 'package:hng_stage_3/models/wallpaper_model.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 
