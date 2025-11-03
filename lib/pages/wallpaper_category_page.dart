@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hng_stage_3/design_widgets/fav_card_widget.dart';
+import '../design_widgets/nav_bar_widget.dart';
+import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
 
 
-class WallpapersCategoryPage extends StatelessWidget {
+class WallpapersCategoryPage extends StatefulWidget {
   final String category;
   final List<Wallpaper> wallpapers;
 
@@ -14,41 +18,60 @@ class WallpapersCategoryPage extends StatelessWidget {
   });
 
   @override
+  State<WallpapersCategoryPage> createState() => _WallpapersCategoryPageState();
+}
+
+class _WallpapersCategoryPageState extends State<WallpapersCategoryPage> {
+  final db = DatabaseHelper();
+  List<Wallpaper> wallpapers = [];
+  bool isGrid = true;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  toggleDisplayView() {
+    setState(() {
+      if (isGrid == true) {
+        isGrid = false;
+      } else {
+        isGrid = true;
+      }
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     // Filter wallpapers by category
-    final filtered = wallpapers.where((w) => w.category == category).toList();
+    final filtered = widget.wallpapers.where((w) => w.category == widget.category).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Category: $category"),
-      ),
-      body: filtered.isEmpty
-          ? const Center(child: Text("No wallpapers in this category"))
-          : GridView.builder(
-        padding: const EdgeInsets.all(8),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 2 columns
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: filtered.length,
-        itemBuilder: (context, index) {
-          final wallpaper = filtered[index];
-          return GestureDetector(
-            onTap: () {
-              // You could navigate deeper if needed
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                  image: FileImage(File(wallpaper.filePath)),
-                  fit: BoxFit.cover,
+      body: Column(
+        children: [
+          NavBar(),
+          Row(
+            children: [
+              IconButton(
+                onPressed: toggleDisplayView,
+                icon:
+                isGrid
+                    ? SvgPicture.asset(
+                  'assets/icons/gridView.svg',
+                  width: 15,
+                  height: 15,
+                )
+                    : SvgPicture.asset(
+                  'assets/icons/listView.svg',
+                  width: 15,
+                  height: 15,
                 ),
               ),
-            ),
-          );
-        },
+            ],
+          ),
+          filtered.isEmpty
+              ? const Center(child: Text("No wallpapers in this category"))
+              : infoCard(wallpapers, context)
+        ],
       ),
     );
   }

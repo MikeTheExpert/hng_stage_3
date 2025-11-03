@@ -1,9 +1,9 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:hng_stage_3/design_widgets/fav_card_widget.dart';
 import 'package:hng_stage_3/models/wallpaper_model.dart';
 
+import '../design_widgets/nav_bar_widget.dart';
 import '../models/helper_class.dart';
 
 class MyFavourite extends StatefulWidget {
@@ -39,10 +39,14 @@ class _MyFavouriteState extends State<MyFavourite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Favourites")),
-      body: wallpapers.isEmpty
-          ? const Center(child: Text("No favourites yet ⭐"))
-          : infoCard(wallpapers, context)
+      body: Column(
+        children: [
+          NavBar(),
+          wallpapers.isEmpty
+              ? const Center(child: Text("No favourites yet ⭐"))
+              : infoCard(wallpapers, context),
+        ],
+      )
     );
   }
 }

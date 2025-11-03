@@ -3,24 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hng_stage_3/design_widgets/favourite_btn.dart';
 
-Widget infoCard(wallpapers,context) {
-  final screenWidth = MediaQuery.of(context).size.width;
-  final itemWidth = 150.0; // desired width per item
-  final crossAxisCount = (screenWidth / itemWidth).floor();
-
+Widget infoCard(wallpapers, context) {
   return GridView.builder(
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      childAspectRatio: 0.5,
+    gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: 435,
+      mainAxisExtent: 290,
+      crossAxisSpacing: 23,
+      mainAxisSpacing: 20,
     ),
     itemCount: wallpapers.length,
     itemBuilder: (BuildContext context, int index) {
       final cardItem = wallpapers[index];
       return Container(
-        width: 435.3333435058594,
-        height: 290.711669921875,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: FileImage(File(cardItem.filePath)), // FileImage
@@ -35,7 +29,10 @@ Widget infoCard(wallpapers,context) {
               alignment: Alignment.topRight,
               child: FavouriteButton(wallpaper: wallpapers),
             ),
-            textDisplay(cardItem.title, cardItem.category),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: textDisplay(cardItem.title, cardItem.category),
+            ),
           ],
         ),
       );
@@ -45,13 +42,31 @@ Widget infoCard(wallpapers,context) {
 
 //at width 440 the navbar should turn into a drawer
 
-Widget textDisplay(textData, categoryData) {
-  return Positioned(
-    child: Column(
-      children: [
-        Text(textData),
-        Card(color: Color.fromRGBO(254,254,254,1),child: Text(categoryData),),
-      ],
-    ),
+Widget textDisplay(titleData,categoryData) {
+  return Column(
+    children: [
+      Text(
+        titleData,
+        style: TextStyle(
+          color: Color.fromRGBO(255, 255, 255, 1),
+          fontFamily: 'Poppins',
+          fontSize: 24,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+
+      Card(
+        color: Color.fromRGBO(255, 255, 255, 0.2),
+        child: Text(
+          categoryData,
+          style: TextStyle(
+            color: Color.fromRGBO(255, 255, 255, 1),
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    ],
   );
 }

@@ -46,9 +46,7 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: NavBar(),
-      ),
+
       floatingActionButton: IconButton(
         onPressed: () async {
           final result = await Navigator.push(
@@ -67,29 +65,73 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton.outlined(
-                  onPressed: toggleDisplayView,
-                  icon: isGrid ? SvgPicture.asset(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NavBar(),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(48.0, 52.0, 48.0, 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ShaderMask(
+                  shaderCallback:
+                      (bounds) => const LinearGradient(
+                    colors: [
+                      Color.fromRGBO(251, 176, 59, 1),
+                      Color.fromRGBO(236, 12, 67, 1),
+                    ], // your two colors
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ).createShader(
+                    Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                  ),
+                  child: const Text(
+                    'Browse Wallpapers',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'ClashDisplay',
+                      fontSize: 60,
+                      color: Colors.white, // must be white to show gradient
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(47.0,0.0,47.0,33.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: toggleDisplayView,
+                    icon:
+                    isGrid
+                        ? SvgPicture.asset(
                       'assets/icons/gridView.svg',
                       width: 15,
                       height: 15,
-                    ) : SvgPicture.asset(
-                  'assets/icons/listView.svg',
-                  width: 15,
-                    height: 15,
+                    )
+                        : SvgPicture.asset(
+                      'assets/icons/listView.svg',
+                      width: 15,
+                      height: 15,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             wallpapers.isEmpty
                 ? Center(child: Text('Nothing here'))
                 : Expanded(
-              child:
-              isGrid
-                  ? homepageCard(wallpapers, context)
-                  : listView(wallpapers),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(47.0, 12.0, 0.0, 0.0),
+                child: wallpapers.isEmpty
+                    ? Center(child: Text('Nothing here'))
+                    : isGrid
+                    ? homepageCard(wallpapers, context)
+                    : listView(wallpapers),
+              ),
             ),
           ],
         ),

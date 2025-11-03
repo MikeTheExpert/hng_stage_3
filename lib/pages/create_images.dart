@@ -1,13 +1,13 @@
-import 'dart:io';
+import 'dart:typed_data';
+import 'dart:io' show File; // only available on non-web
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
 
-
 class CreateWallpaperPage extends StatefulWidget {
-
   const CreateWallpaperPage({super.key});
 
   @override
@@ -23,37 +23,47 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
   final _moodSetController = TextEditingController();
   final _categoryController = TextEditingController();
 
-  File? _selectedImage;
+  File? _selectedImageFile;       // for desktop/mobile
+  Uint8List? _selectedImageBytes; // for web
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+      if (kIsWeb) {
+        final bytes = await pickedFile.readAsBytes();
+        setState(() {
+          _selectedImageBytes = bytes;
+        });
+      } else {
+        setState(() {
+          _selectedImageFile = File(pickedFile.path);
+        });
+      }
     }
   }
 
   void _saveWallpaper() async {
-    if (_formKey.currentState!.validate() && _selectedImage != null) {
+    final hasImage = kIsWeb ? _selectedImageBytes != null : _selectedImageFile != null;
+
+    if (_formKey.currentState!.validate() && hasImage) {
       final wallpaper = Wallpaper(
         title: _titleController.text,
         description: _descriptionController.text,
         moodSet: _moodSetController.text,
-        filePath: _selectedImage!.path,
+        // on web you can’t rely on a file path, so store empty string or handle differently
+        filePath: kIsWeb ? '' : _selectedImageFile!.path,
         category: _categoryController.text,
       );
 
-      // Call your DB helper insert function
       final id = await DatabaseHelper.instance.insertWallpaper(wallpaper);
-      if(!mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Wallpaper saved with id: $id')),
       );
 
-      Navigator.pop(context, true); // return true to refresh parent
+      Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill all fields and select an image')),
@@ -61,9 +71,17 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    Widget imageWidget;
+    if (kIsWeb && _selectedImageBytes != null) {
+      imageWidget = Image.memory(_selectedImageBytes!, height: 150, fit: BoxFit.cover);
+    } else if (!kIsWeb && _selectedImageFile != null) {
+      imageWidget = Image.file(_selectedImageFile!, height: 150, fit: BoxFit.cover);
+    } else {
+      imageWidget = const Text("No image selected");
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text("Create Wallpaper")),
       body: Padding(
@@ -73,28 +91,24 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Title
                 TextFormField(
                   controller: _titleController,
                   decoration: const InputDecoration(labelText: "Title"),
                   validator: (value) =>
                   value == null || value.isEmpty ? "Enter a title" : null,
                 ),
-                // Description
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(labelText: "Description"),
                   validator: (value) =>
                   value == null || value.isEmpty ? "Enter a description" : null,
                 ),
-                // MoodSet
                 TextFormField(
                   controller: _moodSetController,
                   decoration: const InputDecoration(labelText: "Mood Set"),
                   validator: (value) =>
                   value == null || value.isEmpty ? "Enter a mood set" : null,
                 ),
-                // Category
                 TextFormField(
                   controller: _categoryController,
                   decoration: const InputDecoration(labelText: "Category"),
@@ -103,10 +117,7 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Image Picker
-                _selectedImage != null
-                    ? Image.file(_selectedImage!, height: 150, fit: BoxFit.cover)
-                    : const Text("No image selected"),
+                imageWidget,
                 ElevatedButton.icon(
                   onPressed: _pickImage,
                   icon: const Icon(Icons.image),
@@ -115,7 +126,6 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
 
                 const SizedBox(height: 20),
 
-                // Save Button
                 ElevatedButton(
                   onPressed: _saveWallpaper,
                   child: const Text("Save Wallpaper"),
