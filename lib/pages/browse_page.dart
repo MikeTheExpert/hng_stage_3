@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hng_stage_3/design_widgets/list_view.dart';
-import 'package:hng_stage_3/design_widgets/home_page_card.dart';
 import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
 
+import '../design_widgets/browser_card.dart';
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
-import 'create_images.dart';
 
 class MyBrowserPage extends StatefulWidget {
   const MyBrowserPage({super.key});
@@ -109,11 +108,11 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
                 ? Center(child: Text('Nothing here'))
                 : Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(47.0, 12.0, 0.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(47.0, 12.0, 47.0, 0.0),
                 child: wallpapers.isEmpty
                     ? Center(child: Text('Nothing here'))
                     : isGrid
-                    ? homepageCard(wallpapers, context)
+                    ? browserPageCard(wallpapers, context)
                     : listView(wallpapers),
               ),
             ),

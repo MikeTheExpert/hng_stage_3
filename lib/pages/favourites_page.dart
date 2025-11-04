@@ -44,7 +44,10 @@ class _MyFavouriteState extends State<MyFavourite> {
           NavBar(),
           wallpapers.isEmpty
               ? const Center(child: Text("No favourites yet ⭐"))
-              : infoCard(wallpapers, context),
+              : Expanded(child: Padding(
+                padding: const EdgeInsets.fromLTRB(47.0, 12.0, 47.0, 0.0),
+                child: infoCard(wallpapers, context),
+              )),
         ],
       )
     );

@@ -1,64 +1,77 @@
-
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 
-import '../pages/wallpaper_category_page.dart';
+import '../pages/similar_category.dart';
 
-Widget homepageCard (wallpapers, context, ){
-  final screenWidth = MediaQuery.of(context).size.width;
-  final itemWidth = 150.0; // desired width per item
-  final crossAxisCount = (screenWidth / itemWidth).floor();
-
+Widget browserPageCard(List wallpapers, BuildContext context) {
   return GridView.builder(
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      childAspectRatio: 0.5,
+    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: 400,   // each tile max width → controls how many per row
+      mainAxisExtent: 250,       // fixed height for each tile
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
     ),
     itemCount: wallpapers.length,
     itemBuilder: (BuildContext context, int index) {
       final cardItem = wallpapers[index];
       return GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => WallpapersCategoryPage(
-                category: cardItem.category,
-                wallpapers: wallpapers, // pass your full list here
+              builder: (context) => SimilarCategoryPage(
+                category: cardItem.category, // pass the current wallpaper's category
               ),
             ),
           );
         },
-        child: Container(
-          width: 435.3333435058594,
-          height: 290.711669921875,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: FileImage(File(cardItem.filePath)), // FileImage
-              fit: BoxFit.cover, // cover, contain, fill, etc.
-            ),
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(26),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.file(
+                File(cardItem.filePath),
+                fit: BoxFit.cover, // ensures full coverage
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.black54,
+                  child: textDisplay(cardItem.category, cardItem.moodSet),
+                ),
+              ),
+            ],
           ),
-          child: textDisplay(cardItem.category, cardItem.moodSet),
         ),
       );
     },
   );
 }
 
-//at width 440 the navbar should turn into a drawer
-
-Widget textDisplay(textData, categoryData) {
-  return Positioned(
-    child: Column(
-      children: [
-        Text(textData),
-        Card(color: Color.fromRGBO(254,254,254,1),child: Text(categoryData),),
-      ],
-    ),
+Widget textDisplay(String categoryData, String moodSetData) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+        categoryData,
+        style: const TextStyle(
+          color: Colors.white,
+          fontFamily: 'Poppins',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Text(
+        moodSetData,
+        style: const TextStyle(
+          color: Colors.white70,
+          fontFamily: 'Poppins',
+          fontSize: 12,
+        ),
+      ),
+    ],
   );
 }

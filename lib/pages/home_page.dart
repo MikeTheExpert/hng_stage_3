@@ -35,27 +35,27 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: IconButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CreateWallpaperPage(),
-            ),
-          );
-          if (result == true) {
-            // Refresh your wallpapers list after insertion
-            setState(() {});
-          }
-        },
-        icon: Icon(Icons.add_outlined),
-      ),
+      // floatingActionButton: IconButton(
+      //   onPressed: () async {
+      //     final result = await Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => const CreateWallpaperPage(),
+      //       ),
+      //     );
+      //     if (result == true) {
+      //       // Refresh your wallpapers list after insertion
+      //       setState(() {});
+      //     }
+      //   },
+      //   icon: Icon(Icons.add_outlined),
+      // ),
       body: SafeArea(
         child: Column(
           children: [
             Flexible(child: NavBar()),
             Padding(
-              padding: const EdgeInsets.fromLTRB(48.0, 52.0, 48.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(48.0, 30.0, 48.0, 8.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: ShaderMask(
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 50.0),
+              padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 18.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 33.0),
+              padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ? Center(child: Text('Nothing here'))
                 : Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(47.0, 0.0, 0.0, 47.0),
+                    padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0,0.0),
                     child:
                         wallpapers.isEmpty
                             ? Center(child: Text('Nothing here'))

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hng_stage_3/models/wallpaper_model.dart';
-import 'package:hng_stage_3/models/helper_class.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../models/helper_class.dart';
+import '../models/wallpaper_model.dart';
 
 class FavouriteButton extends StatefulWidget {
   final Wallpaper wallpaper;
@@ -13,31 +15,50 @@ class FavouriteButton extends StatefulWidget {
 
 class _FavouriteButtonState extends State<FavouriteButton> {
   final db = DatabaseHelper();
-  late bool isFav;
+  bool isFav = false;
 
   @override
   void initState() {
     super.initState();
-    isFav = widget.wallpaper.isFavorite;
+    _loadFavouriteStatus();
+  }
+
+  Future<void> _loadFavouriteStatus() async {
+    if (widget.wallpaper.id != null) {
+      final favStatus = await db.isFavorite(widget.wallpaper.id!);
+      setState(() {
+        isFav = favStatus;
+      });
+    }
   }
 
   Future<void> _toggleFavourite() async {
+    if (widget.wallpaper.id == null) {
+      // Can't toggle if the wallpaper hasn't been inserted yet
+      return;
+    }
+
     setState(() {
       isFav = !isFav;
     });
 
-    // Update in database
     await db.toggleFavorite(widget.wallpaper.id!, isFav);
   }
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        isFav ? Icons.favorite_border_outlined: Icons.favorite_border,
-        color: isFav ? Colors.amber : Colors.transparent,
-      ),
       onPressed: _toggleFavourite,
+      icon: CircleAvatar(
+        radius: 20,
+        backgroundColor: isFav ? Colors.white : Colors.transparent,
+        child: SvgPicture.asset(
+          isFav ? 'assets/icons/selectedFavBtn.svg' : 'assets/icons/favBtn.svg',
+          width: 16,
+          height: 16,
+          color: isFav ? Colors.amberAccent : Colors.grey,
+        ),
+      ),
     );
   }
 }

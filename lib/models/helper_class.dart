@@ -66,22 +66,49 @@ class DatabaseHelper {
     );
     return List.generate(maps.length, (i) => Wallpaper.fromMap(maps[i]));
   }
+  // Get wallpapers by category
+  Future<List<Wallpaper>> getWallpapersByCategory(String category, {int? excludeId}) async {
+    final db = await instance.database;
+
+    // If you want to exclude the current wallpaper (e.g. when showing "similar" ones)
+    final maps = await db.query(
+      'wallpapers',
+      where: excludeId != null ? 'category = ? AND id != ?' : 'category = ?',
+      whereArgs: excludeId != null ? [category, excludeId] : [category],
+    );
+
+    return List.generate(maps.length, (i) => Wallpaper.fromMap(maps[i]));
+  }
   // Delete
   Future<int> deleteWallpaper(int id) async {
     final db = await instance.database;
     return await db.delete('wallpapers', where: 'id = ?', whereArgs: [id]);
   }
 
-  // Toggle favorite
-  Future<int> toggleFavorite( int id, bool isFavorite) async {
+  Future<bool> isFavorite(int wallpaperId) async {
     final db = await instance.database;
-    return await db.update(
+    final result = await db.query(
       'wallpapers',
-      {'isFavorite': isFavorite ? 1 : 0},
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [wallpaperId],
+      limit: 1,
+    );
+    if (result.isNotEmpty) {
+      return result.first['isFavorite'] == 1;
+    }
+    return false;
+  }
+
+  Future<void> toggleFavorite(int wallpaperId, bool favStatus) async {
+    final dbClient = await instance.database;
+    await dbClient.update(
+      'wallpapers',
+      {'isFavorite': favStatus ? 1 : 0},
+      where: 'id = ?',
+      whereArgs: [wallpaperId],
     );
   }
+
   // Close
   Future close() async {
     final db = await instance.database;

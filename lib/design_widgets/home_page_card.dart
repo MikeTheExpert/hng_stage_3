@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 Widget homepageCard(List wallpapers, BuildContext context) {
   return GridView.builder(
     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 250,   // each tile max width → controls how many per row
-      mainAxisExtent: 250,       // fixed height for each tile
+      maxCrossAxisExtent: 400,   // each tile max width → controls how many per row
+      mainAxisExtent: 240,       // fixed height for each tile
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
     ),
@@ -25,7 +25,7 @@ Widget homepageCard(List wallpapers, BuildContext context) {
               alignment: Alignment.bottomLeft,
               child: Container(
                 padding: const EdgeInsets.all(8),
-                color: Colors.black54,
+                color: Colors.transparent,
                 child: textDisplay(cardItem.category, cardItem.moodSet),
               ),
             ),
