@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
 import 'package:hng_stage_3/models/wallpaper_model.dart';
 import 'package:hng_stage_3/design_widgets/list_view.dart';
@@ -24,11 +25,13 @@ class _SimilarCategoryPageState extends State<SimilarCategoryPage> {
   final db = DatabaseHelper();
   List<Wallpaper> wallpapers = [];
   bool isGrid = true;
+  Wallpaper? selectedWallpaper;
 
   @override
   void initState() {
     super.initState();
     _loadWallpapers();
+
   }
 
   Future<void> _loadWallpapers() async {
@@ -47,31 +50,54 @@ class _SimilarCategoryPageState extends State<SimilarCategoryPage> {
     });
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Similar: ${widget.category}"),
-        actions: [
-          IconButton(
-            icon: Icon(isGrid ? Icons.list : Icons.grid_view),
-            onPressed: _toggleView,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          NavBar(),
-          wallpapers.isEmpty
-              ? const Center(child: Text("No similar wallpapers found"))
-              : Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: isGrid
-                ? infoCard(wallpapers, context) // your grid widget
-                : listView(wallpapers), // your list widget
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(child: NavBar()),
+            Align(
+              alignment: Alignment.centerRight,
+              child:
+              IconButton(
+                onPressed: _toggleView,
+                icon:
+                isGrid
+                    ? SvgPicture.asset(
+                  'assets/icons/gridView.svg',
+                  width: 15,
+                  height: 15,
+                )
+                    : SvgPicture.asset(
+                  'assets/icons/listView.svg',
+                  width: 15,
+                  height: 15,
+                ),
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+            wallpapers.isEmpty
+                ? const Center(child: Text("No favourites yet ⭐"))
+                : Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(47.0, 12.0, 47.0, 0.0),
+                child: infoCard(wallpapers, context),
+              ),
+            ),
+
+            ],
+            ),
+          ],
+        ),
+
+        /// Right side: preview card (only if selected)
       ),
     );
   }
+
 }

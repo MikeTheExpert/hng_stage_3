@@ -10,19 +10,20 @@ class NavBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: Colors.white,
-        width: 1440,
+        width: double.infinity,
         height: 98,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                SizedBox(width: 47,),
+                SizedBox(width: 40,),
                 SvgPicture.asset(
                   'assets/icons/appIcon.svg',
                   width: 16,
                   height: 16,
                 ),
+                SizedBox(width: 8,),
                 const Text("Wallpaper Studio",style: TextStyle(
                   color: Color.fromRGBO(0, 0, 0, 1),
                   fontFamily: 'Poppins',
@@ -33,8 +34,8 @@ class NavBar extends StatelessWidget {
               ],
             ),
             SizedBox(
-              width: 523,
-              height: 44,
+              width: 543,
+              height: 54,
               child: Row(
                 children: [
                   HeaderBtn(
@@ -84,7 +85,7 @@ class NavBar extends StatelessWidget {
 }
 
 class HeaderBtn extends StatelessWidget {
-  final SvgPicture icon;
+  final Widget icon;
   final String headerText;
   final String routeName;
 

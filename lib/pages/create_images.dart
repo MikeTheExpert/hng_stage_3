@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../design_widgets/nav_bar_widget.dart';
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
 
@@ -83,7 +84,6 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Create Wallpaper")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -91,6 +91,7 @@ class CreateWallpaperPageState extends State<CreateWallpaperPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Flexible(child: NavBar(),),
                 TextFormField(
                   controller: _titleController,
                   decoration: const InputDecoration(labelText: "Title"),

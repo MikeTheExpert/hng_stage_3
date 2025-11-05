@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../pages/similar_category.dart';
+import '../pages/wallpaper_category_page.dart';
+import 'favourite_btn.dart';
 
 Widget browserPageCard(List wallpapers, BuildContext context) {
   return GridView.builder(
@@ -19,8 +21,9 @@ Widget browserPageCard(List wallpapers, BuildContext context) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SimilarCategoryPage(
-                category: cardItem.category, // pass the current wallpaper's category
+              builder: (context) => WallpapersCategoryPage(
+                category: cardItem.category,
+                wallpapers: wallpapers,// pass the current wallpaper's category
               ),
             ),
           );
@@ -33,6 +36,12 @@ Widget browserPageCard(List wallpapers, BuildContext context) {
               Image.file(
                 File(cardItem.filePath),
                 fit: BoxFit.cover, // ensures full coverage
+              ), Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: FavouriteButton(wallpaper: cardItem),
+                ),
               ),
               Align(
                 alignment: Alignment.bottomLeft,

@@ -56,7 +56,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
           isFav ? 'assets/icons/selectedFavBtn.svg' : 'assets/icons/favBtn.svg',
           width: 16,
           height: 16,
-          color: isFav ? Colors.amberAccent : Colors.grey,
+
         ),
       ),
     );

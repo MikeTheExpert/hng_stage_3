@@ -9,12 +9,13 @@ class Wallpaper {
 
   Wallpaper({
     this.id,
+    this.isFavorite = false,
     required this.title,
     required this.description,
     required this. moodSet,
     required this.filePath,
     required this.category,
-    this.isFavorite = false,
+
   });
 
   Map<String, dynamic> toMap() {

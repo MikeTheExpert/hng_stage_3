@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hng_stage_3/design_widgets/list_view.dart';
 import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
 
-import '../design_widgets/browser_card.dart';
+import '../design_widgets/home_page_card.dart';
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
 
@@ -48,10 +48,8 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: NavBar(),
-            ),
+            Flexible(child: NavBar()),
+
             Padding(
               padding: const EdgeInsets.fromLTRB(48.0, 52.0, 48.0, 8.0),
               child: Align(
@@ -80,9 +78,22 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 18.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Explore our curated collections of stunning wallpapers',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+              ),
+            ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(47.0,0.0,47.0,33.0),
+              padding: const EdgeInsets.fromLTRB(47.0,0.0,47.0,10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -112,7 +123,7 @@ class _MyBrowserPageState extends State<MyBrowserPage> {
                 child: wallpapers.isEmpty
                     ? Center(child: Text('Nothing here'))
                     : isGrid
-                    ? browserPageCard(wallpapers, context)
+                    ? homepageCard(wallpapers, context)
                     : listView(wallpapers),
               ),
             ),

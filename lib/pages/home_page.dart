@@ -3,6 +3,8 @@ import 'package:hng_stage_3/design_widgets/list_view.dart';
 import 'package:hng_stage_3/design_widgets/home_page_card.dart';
 import 'package:hng_stage_3/design_widgets/nav_bar_widget.dart';
 
+import '../design_widgets/active_wallpaper_widget.dart';
+import '../models/active_wallpaper_model.dart';
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
 import 'create_images.dart';
@@ -18,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final db = DatabaseHelper();
   List<Wallpaper> wallpapers = [];
   bool isGrid = true;
+  final active = ActiveWallpaperState.activeWallpaper;
 
   @override
   void initState() {
@@ -54,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Flexible(child: NavBar()),
-            Padding(
+            active !=null ? ActiveWallpaperCard(wallpaper: active): Padding(
               padding: const EdgeInsets.fromLTRB(48.0, 30.0, 48.0, 8.0),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -81,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-            ),
+            ) ,
 
             Padding(
               padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 18.0),
@@ -96,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            SizedBox(width: 10,),
             Padding(
               padding: const EdgeInsets.fromLTRB(47.0, 0.0, 47.0, 10.0),
               child: Row(

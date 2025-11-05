@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hng_stage_3/pages/browse_page.dart';
+import 'package:hng_stage_3/pages/create_images.dart';
 import 'package:hng_stage_3/pages/favourites_page.dart';
 import 'package:hng_stage_3/pages/home_page.dart';
 import 'package:hng_stage_3/pages/settings_page.dart';
@@ -20,9 +21,11 @@ class MyApp extends StatelessWidget {
         '/favourite': (context) =>MyFavourite(),
         '/settings':(context) =>MySettings(),
         '/browse':(context) =>MyBrowserPage(),
+        '/create':(context) => CreateWallpaperPage(),
       },
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       ),
       home: MyHomePage(),
     );

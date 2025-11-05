@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import 'favourite_btn.dart';
+
 Widget homepageCard(List wallpapers, BuildContext context) {
   return GridView.builder(
     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -20,6 +22,12 @@ Widget homepageCard(List wallpapers, BuildContext context) {
             Image.file(
               File(cardItem.filePath),
               fit: BoxFit.cover, // ensures full coverage
+            ),    Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: FavouriteButton(wallpaper: cardItem),
+              ),
             ),
             Align(
               alignment: Alignment.bottomLeft,

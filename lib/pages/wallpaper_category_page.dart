@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hng_stage_3/design_widgets/fav_card_widget.dart';
+import 'package:hng_stage_3/design_widgets/list_view.dart';
 import '../design_widgets/nav_bar_widget.dart';
 import '../models/helper_class.dart';
 import '../models/wallpaper_model.dart';
@@ -9,7 +10,7 @@ import '../models/wallpaper_model.dart';
 
 class WallpapersCategoryPage extends StatefulWidget {
   final String category;
-  final List<Wallpaper> wallpapers;
+  final List wallpapers;
 
   const WallpapersCategoryPage({
     super.key,
@@ -28,16 +29,11 @@ class _WallpapersCategoryPageState extends State<WallpapersCategoryPage> {
   
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
   toggleDisplayView() {
     setState(() {
-      if (isGrid == true) {
-        isGrid = false;
-      } else {
-        isGrid = true;
-      }
+      isGrid =!isGrid;
     });
   }
   @override
@@ -70,7 +66,7 @@ class _WallpapersCategoryPageState extends State<WallpapersCategoryPage> {
           ),
           filtered.isEmpty
               ? const Center(child: Text("No wallpapers in this category"))
-              : infoCard(wallpapers, context)
+              : isGrid? favInfoCard(wallpapers, context): listView(wallpapers)
         ],
       ),
     );
