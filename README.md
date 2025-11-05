@@ -7,4 +7,5 @@ Linkden Post:https://www.linkedin.com/posts/michael-agyo-09014638b_hng-tech-as-i
 X Post:https://x.com/agyo_darkHorse/status/1985842407267770513
 Intro Video Google Drive Link:https://drive.google.com/file/d/1MK3I1z8egAj-dXeD7dtsLpiK91_34-MM/view?usp=drive_link || https://drive.google.com/file/d/1BIL1YX1ysO0k_dtgsH5jqG_RHn29IY23/view?usp=drive_link
 Appetizer link: https://appetize.io/app/b_zio2mpmx2ibhzlgckuxp2jm32u
+Desktop App Zip Link: https://drive.google.com/file/d/1rPdHg3P8DDxOb4C6x9kmc_-157xXaGH9/view?usp=drive_link
 
